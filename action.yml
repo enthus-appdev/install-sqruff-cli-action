@@ -1,0 +1,29 @@
+name: 'Install Sqruff CLI'
+description: 'Installs the Sqruff CLI on Ubuntu'
+branding:
+  color: black
+  icon: arrow-down-circle
+inputs:
+  version:
+    description: 'Version of Sqruff CLI to install'
+    required: false
+    default: 'latest'
+runs:
+  using: 'composite'
+  steps:
+    - run: |
+        if [ "${{ inputs.version }}" = "latest" ]; then
+          # Fetch the latest release tag from GitHub API without authentication
+          LATEST_VERSION=$(curl -s https://api.github.com/repos/quarylabs/sqruff/releases/latest | grep 'tag_name' | cut -d '"' -f 4)
+          echo "Latest version is $LATEST_VERSION"
+          VERSION=$LATEST_VERSION
+        else
+          VERSION=${{ inputs.version }}
+        fi
+        
+        echo "Installing Sqruff CLI version $VERSION"
+        wget https://github.com/quarylabs/sqruff/releases/download/$VERSION/sqruff-linux-x86_64-musl.tar.gz -O sqruff-cli.tar.gz
+        tar -xzf sqruff-cli.tar.gz
+        sudo mv sqruff /usr/local/bin/sqruff
+        sqruff --version
+      shell: bash

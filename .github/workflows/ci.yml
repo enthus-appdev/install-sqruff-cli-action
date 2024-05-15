@@ -1,0 +1,25 @@
+name: CI for Sqruff CLI Action
+
+on: [push, pull_request]
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test Install Without Version
+        uses: ./
+
+      - name: Test Install Latest Version
+        uses: ./
+        with:
+          version: 'latest'
+
+      - name: Test Install Specific Version
+        uses: ./
+        with:
+          version: 'v0.4.0'
+      - name: Verify Installation
+        run: sqruff --version
