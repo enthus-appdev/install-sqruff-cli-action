@@ -21,5 +21,38 @@ jobs:
         uses: ./
         with:
           version: 'v0.4.0'
+      
       - name: Verify Installation
         run: sqruff --version
+
+  test-with-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test Install with GitHub Token
+        uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Verify Installation
+        run: |
+          sqruff --version
+          sqruff --help
+
+  test-specific-version-with-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test Install Specific Version with Token
+        uses: ./
+        with:
+          version: 'v0.28.0'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Verify Specific Version
+        run: |
+          sqruff --version | grep "0.28.0"
