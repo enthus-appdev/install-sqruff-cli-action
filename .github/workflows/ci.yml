@@ -55,7 +55,8 @@ jobs:
       
       - name: Verify Specific Version
         run: |
-          # Just verify sqruff runs successfully
+          # Verify sqruff runs successfully
           sqruff --version
-          # Test actual functionality (ignore exit code as lint may find issues)
-          echo "SELECT * FROM table" | sqruff lint --dialect ansi - || true
+          sqruff --help
+          # Test parsing functionality (parse always succeeds if SQL is valid)
+          echo "SELECT 1" | sqruff parse --dialect ansi -
