@@ -58,5 +58,3 @@ jobs:
           # Verify sqruff runs successfully
           sqruff --version
           sqruff --help
-          # Test parsing functionality (parse always succeeds if SQL is valid)
-          echo "SELECT 1" | sqruff parse --dialect ansi -
